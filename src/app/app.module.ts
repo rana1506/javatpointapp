@@ -10,12 +10,14 @@ import { PostcreateComponent } from './post/postcreate/postcreate.component';
 import { PostlistComponent } from './post/postlist/postlist.component';
 import { PostService } from './services/post.service';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostcreateComponent,
-    PostlistComponent
+    PostlistComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

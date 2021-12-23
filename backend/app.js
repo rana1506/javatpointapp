@@ -5,6 +5,8 @@ const postmodel=require("./models/post");
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 
+const postroutes = require('./routes/post');
+
 const url = 'mongodb://127.0.0.1:27017/post_database'
 mongoose.connect(url, { useNewUrlParser: true })
 const db = mongoose.connection
@@ -25,43 +27,8 @@ app.use((req, res, next)=>{
   next();
 });
 
-app.post("/api/posts",(req, res, next)=>{
-  const post = new postmodel({
-    title: req.body.title,
-    content: req.body.content
-  });
-  post.save(function(err, doc) {
-    if (err) return console.error(err);
-    console.log("Document inserted succussfully!");
-  });
-
-  console.log(post);
-  res.status(201).json({
-    message: 'Post added successfully'
-  });
-  next()
-});
-
-app.delete("/api/posts/:id", (req, res, next)=>{
-  postmodel.deleteOne({_id:req.params.id}).then(result=>{
-    console.log(result);
-    res.status(200).json({
-      message:"Post deleted!"
-    });
-  });
-});
-
-app.get('/api/posts', (req, res, next) =>{
-  postmodel.find()
-  .then((documents)=>{
-    console.log(documents);
-    res.status(200).json({
-      message: 'Posts Fetched Successfully',
-      posts: documents
-    });
-  });
-});
-
+app.use("/api/posts", postroutes);
+module.exports = app;
 /*app.use('/api/posts', (req, res, next) =>{
   const posts = [
       {
@@ -87,4 +54,4 @@ app.get('/api/posts', (req, res, next) =>{
   console.log('data service called')
 });*/
 
-module.exports = app;
+

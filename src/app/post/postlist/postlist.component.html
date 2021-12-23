@@ -3,7 +3,8 @@
   <li *ngFor = "let post of posts" >
       {{post.title}}
       <p>{{post.content}}</p>
-      <button  color="primary" >Edit</button>
+      <a [routerLink] = "['/edit',post.id]">EDIT</a>
+      <button (click) = "onDelete(post.id)" > DELETE </button>
   </li>
  </ul>
 
