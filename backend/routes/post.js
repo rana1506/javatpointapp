@@ -30,7 +30,7 @@ router.put("/:id", (req, res, next)=>{
 
 router.get('', (req, res, next) =>{
   postmodel.find()
-  .then((documents)=>{
+  .then((documents)=>{console.log('Posts Found!')
     //console.log(documents);
     res.status(200).json({
       message: 'Posts Fetched Successfully',
@@ -42,8 +42,10 @@ router.get('', (req, res, next) =>{
 router.get("/:id",(req, res, next)=>{
   postmodel.findById(req.params.id).then(post =>{
     if(post){
+      console.log('Post Found!')
       res.status(200).json(post);
     }else{
+      console.log('Post not Found!')
       res.status(484).json({message: 'Post not Found!'});
     }
   });
