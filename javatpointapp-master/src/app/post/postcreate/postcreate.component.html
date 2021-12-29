@@ -1,0 +1,6 @@
+<p>postcreate works!</p>
+<form #postForm = "ngForm" (ngSubmit) = "onAddPost(postForm)"  >
+  <input   type = "text" name = "title" [ngModel] = "post?.title"  #title="ngModel" >
+  <textarea  rows = "2" name = "content" [ngModel] = "post?.content"  #content="ngModel" >> </textarea>
+  <button  color="primary" type="submit">Save Post</button>
+</form>
