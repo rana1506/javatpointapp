@@ -1,6 +1,12 @@
 const express = require ( 'express' );
+
 const bcrypt = require('bcrypt');
+
+const jwt = require("jsonwebtoken");
+const token = jwt.sign();
+
 const router = express.Router();
+
 const usermodel=require("../models/user");
   /*router.post("/signup", (req, res, next) =>{
 
@@ -44,7 +50,11 @@ const usermodel=require("../models/user");
           message: "Auth failed"
         });
       }
-      return bcrypt.compare(req.body.password, user.password);
+      return bcrypt.compare(req.body.password, user.password).then;
+        const token = jwt.sign({email: user.email, userId: user._id},
+          "A_very_long_string_for_our_secret",
+          { expiresIn: "1h"}
+          );
     }));
 
   });
