@@ -16,7 +16,7 @@ router.post("",(req, res, next)=>{
   });
 });
 
-router.put("/:id", (req, res, next)=>{
+router.put("/:id", (req, res, next)=>{console.log('Inside PUT!')
   const post = new postmodel({
     _id: req.body.id,
     title: req.body.title,
