@@ -1,0 +1,6 @@
+<p>login works!</p>
+<form #loginform= "ngForm" (submit)= "onLogin(loginform)"  >
+  <input type = "email"  name= "email" ngModel placeholder = "Email Id" #emailInput= "ngModel" required email>
+  <input type="password" name= "password" ngModel placeholder="Password" #passwordInput= "ngModel" required>
+  <button color="primary" type = "submit">Login</button>
+</form>

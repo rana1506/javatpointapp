@@ -35,13 +35,11 @@ export class PostcreateComponent implements OnInit {
   }
   onAddPost(form: NgForm){
     if(form.invalid){
-      return;alert("inside form.valid")
+      return;
     }
     if(this.mode==="create"){
-      alert("inside create; ttile: "+form.value.title)
       this.postService.addPost(form.value.title, form.value.content );
     }else{
-      alert("inside edit; id:"+this.postId+"; ttile: "+form.value.title+" ; ttile: "+form.value.content)
       this.postService.updatePost(
         this.postId,
         form.value.title,
