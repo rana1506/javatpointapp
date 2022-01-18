@@ -30,7 +30,9 @@ app.use((req, res, next)=>{
 
 app.use("/api/posts", postroutes);
 app.use("/api/user", userroutes);
+
 module.exports = app;
+
 /*app.use('/api/posts', (req, res, next) =>{
   const posts = [
       {
