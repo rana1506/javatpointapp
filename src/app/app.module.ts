@@ -9,10 +9,11 @@ import { AppComponent } from './app.component';
 import { PostcreateComponent } from './post/postcreate/postcreate.component';
 import { PostlistComponent } from './post/postlist/postlist.component';
 import { PostService } from './services/post.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { SignupComponent } from './authentication/signup/signup.component';
+import { AuthInterceptor } from './authentication/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SignupComponent } from './authentication/signup/signup.component';
     CommonModule
 
   ],
-  providers: [PostService],
+  providers: [{provide: HTTP_INTERCEPTORS,
+    useClass:AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
