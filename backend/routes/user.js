@@ -80,10 +80,22 @@ router.post('/login', function(req, res) {
 
     const token = jwt.sign({email: user.email, userId: user._id}, "A_very_long_string_for_our_secret", { expiresIn: "1h"} );
 
-    res.status(200).json({  token: token })
+    res.status(200).json({ token: token, expiresIn: 3600, userId: user._id, email: user.email})
   });
 
 });
+////////////to get email///////////////////////
+router.get("/:id",(req, res, next)=>{
+  usermodel.findById(req.params.id).then(user =>{
+    if(user){
+      const email=user.email
+      res.status(200).json({email:email});
+    }else{
+      res.status(484).json({message: 'User not Found!'});
+    }
+  });
+});
+
 //////////////////////////////////////////////////
 module.exports = router;
 /*

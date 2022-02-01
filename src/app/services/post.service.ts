@@ -22,26 +22,27 @@ export class PostService {
   getPosts(){
     this.http.get<{message: string, posts: any }>('http://localhost:3000/api/posts')
     .pipe(map((postData)=>{
-      return postData.posts.map((post: { title: any; content: any; _id: any; })=>{
+      return postData.posts.map((post: { title: any; content: any; _id: any; creator: any})=>{
         return{
           title: post.title,
           content:post.content,
-          id: post._id
+          id: post._id,
+          creator: post.creator
     };
-});
-    }))
-    .subscribe((transformedPost)=>{
-      this.posts = transformedPost;
-      this.postUpdated.next([...this.posts]);
-});
+    });
+        }))
+        .subscribe((transformedPost)=>{
+          this.posts = transformedPost;
+          this.postUpdated.next([...this.posts]);
+    });
     return this.posts;
-  }
+}
   getPostUpdatedListener(){
     return this.postUpdated.asObservable();
   }
 
   addPost(title: string, content: string){
-    const post: Post={id: "null", title: title, content: content};
+    const post: Post={id: "null", title: title, content: content, creator: ''};
     this.http.post<{message: string, postId:string}>('http://localhost:3000/api/posts',post)
     .subscribe(( responseData)=>{
       const id = responseData.postId;
@@ -54,21 +55,22 @@ export class PostService {
 
   deletePost(postId:string){
     this.http.delete("http://localhost:3000/api/posts/"+postId)
-    .subscribe(()=>{
+    .subscribe((responseData)=>{
         const updatedPosts = this.posts.filter(post=>post.id!==postId);
         this.posts=updatedPosts;
         this.postUpdated.next([...this.posts]);
+        this.router.navigate(["/"]);
     });
   }
 
   getPost(id: string){
   //return {...this.posts.find(p =>p.id ===id)};
-   return this.http.get<{_id: string, title: string, content:string}>("http://localhost:3000/api/posts/"+id);
+   return this.http.get<{_id: string, title: string, content:string, creator: string}>("http://localhost:3000/api/posts/"+id);
    //const post = this.http.get<{_id: string, title: string, content:string}>("http://localhost:3000/api/posts/"+id);
    //return post
   }
   updatePost( id: string, title:string, content:string){
-    const post: Post = {id:id, title:title, content:content};
+    const post: Post = {id:id, title:title, content:content, creator:""};
     this.http.put("http://localhost:3000/api/posts/"+id,post)
     .subscribe(()=>{
         const updatedPosts = [...this.posts];
@@ -78,6 +80,7 @@ export class PostService {
         this.postUpdated.next([...this.posts]);
         this.router.navigate(["/"]);
       });
+      this.router.navigate(["/"]);
   }
 
 }

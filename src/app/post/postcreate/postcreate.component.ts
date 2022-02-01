@@ -24,7 +24,7 @@ export class PostcreateComponent implements OnInit {
         //this.post = this.postService.getPost(this.postId);
         this.postService.getPost(this.postId).subscribe(postData=>
         {
-          this.post = {id: postData._id, title:postData.title, content:postData.content}
+          this.post = {id: postData._id, title:postData.title, content:postData.content, creator:postData.creator}
         });
 
       }else{

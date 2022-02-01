@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from 'src/app/models/post.model';
 import { PostService } from 'src/app/services/post.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-postlist',
@@ -11,15 +12,24 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class PostlistComponent implements OnInit, OnDestroy  {
   posts: Post[] = [];
+  userId: string="";
+  userIsAuthenticated=false;
   private PostSub: Subscription = new Subscription;
-  constructor(public postService: PostService,public route:ActivatedRoute) { }
+  private authStatusSub: Subscription= new Subscription;
+  constructor(public postService: PostService, private authService: AuthService, public route:ActivatedRoute) { }
 
   ngOnInit(): void {
       this.posts=this.postService.getPosts();
-
+      this.userId = this.authService.getUserId();
       this.PostSub=this.postService.getPostUpdatedListener().
       subscribe((posts: Post[])=>{
       this.posts = posts;
+    });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService.getAuthStatusListener()
+    .subscribe(isAuthenticated=>{
+      this.userIsAuthenticated = isAuthenticated;
+      this.userId = this.authService.getUserId();
     });
   }
   onDelete(postId: string){
@@ -27,6 +37,7 @@ export class PostlistComponent implements OnInit, OnDestroy  {
   }
   ngOnDestroy(){
     this.PostSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
   }
 
 }
