@@ -85,7 +85,7 @@ router.post('/login', function(req, res) {
 
 });
 ////////////to get email///////////////////////
-router.get("/:id",(req, res, next)=>{
+/*router.get("/:id",(req, res, next)=>{
   usermodel.findById(req.params.id).then(user =>{
     if(user){
       const email=user.email
@@ -94,7 +94,7 @@ router.get("/:id",(req, res, next)=>{
       res.status(484).json({message: 'User not Found!'});
     }
   });
-});
+});*/
 
 //////////////////////////////////////////////////
 module.exports = router;

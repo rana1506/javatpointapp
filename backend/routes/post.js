@@ -48,6 +48,16 @@ router.get('', (req, res, next) =>{
   });
 });
 
+router.get('/creator/:id', (req, res, next) =>{
+  postmodel.find({creator:req.params.id})
+  .then((documents)=>{
+    res.status(200).json({
+      message: 'Posts Fetched Successfully',
+      posts: documents
+    });
+  });
+});
+
 router.get("/:id",(req, res, next)=>{
   postmodel.findById(req.params.id).then(post =>{
     if(post){

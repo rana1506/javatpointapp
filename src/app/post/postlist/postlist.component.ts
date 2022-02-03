@@ -5,6 +5,9 @@ import { Post } from 'src/app/models/post.model';
 import { PostService } from 'src/app/services/post.service';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { ObjectId } from 'mongodb';
+const mongoose = require('mongoose');
+
 @Component({
   selector: 'app-postlist',
   templateUrl: './postlist.component.html',
@@ -19,8 +22,9 @@ export class PostlistComponent implements OnInit, OnDestroy  {
   constructor(public postService: PostService, private authService: AuthService, public route:ActivatedRoute) { }
 
   ngOnInit(): void {
-      this.posts=this.postService.getPosts();
       this.userId = this.authService.getUserId();
+      //this.posts=this.postService.getPosts();
+      this.posts=this.postService.getUserPosts(this.userId);
       this.PostSub=this.postService.getPostUpdatedListener().
       subscribe((posts: Post[])=>{
       this.posts = posts;

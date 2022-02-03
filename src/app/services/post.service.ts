@@ -36,7 +36,26 @@ export class PostService {
           this.postUpdated.next([...this.posts]);
     });
     return this.posts;
+  }
+  getUserPosts(id:string){
+    this.http.get<{message: string, posts: any }>('http://localhost:3000/api/posts/creator/'+id)
+    .pipe(map((postData)=>{
+      return postData.posts.map((post: { title: any; content: any; _id: any; creator: any})=>{
+        return{
+          title: post.title,
+          content:post.content,
+          id: post._id,
+          creator: post.creator
+    };
+    });
+        }))
+        .subscribe((transformedPost)=>{
+          this.posts = transformedPost;
+          this.postUpdated.next([...this.posts]);
+    });
+    return this.posts;
 }
+
   getPostUpdatedListener(){
     return this.postUpdated.asObservable();
   }
